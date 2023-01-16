@@ -3,17 +3,25 @@ package main.mouses;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.Graphics;
+
 import java.awt.Point;
 
+import main.calcShapes.calcShapes;
+import main.shapes.Square;
 import main.shapes.USquare;
+
 
 public class Mouse01 implements MouseListener, MouseMotionListener{
 	private static Mouse01 instance;
 	private Point firstPoint;
-	private Point lastPoint;
-	private Point actualPoint;
 
+	private Point actualPoint;
+	
+	
+	public Square square;
+
+	
+	
 	private boolean isMousePressed;
 	
 	
@@ -46,11 +54,15 @@ public class Mouse01 implements MouseListener, MouseMotionListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		this.isMousePressed = false;
-		this.lastPoint = e.getPoint();
 		
-		System.out.println("("+this.firstPoint.x+", "+this.firstPoint.y+")"
-						+" ("+this.lastPoint.x + ", " + this.lastPoint.y + ")");
-		//USquare.get().DrawSquare(this.firstPoint, this.lastPoint);
+		calcShapes drawedSquare = USquare.get().calc;
+		
+		this.square = new Square(
+				drawedSquare.getOrigin(),
+				drawedSquare.getWidth(),
+				drawedSquare.getHeight());
+		
+		
 		
 	}
 
@@ -62,14 +74,14 @@ public class Mouse01 implements MouseListener, MouseMotionListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+		this.square.deleteDraw();
 		
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if(this.actualPoint!=null && e.getPoint().x!=this.actualPoint.x && e.getPoint().y != this.actualPoint.y) {
-			USquare.get().DrawSquare(this.firstPoint, e.getPoint());
+			USquare.get().repaint(this.firstPoint, e.getPoint());
 			this.actualPoint = e.getPoint();
 		}
 		this.actualPoint = e.getPoint();
