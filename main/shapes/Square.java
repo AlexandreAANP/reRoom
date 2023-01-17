@@ -4,27 +4,39 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import main.calcShapes.calcShapes;
+import main.calcShapes.calcSquare;
 import main.windows.MainWindow;
 
 
-public class Square{
+public class Square extends Shapes{
 
-	private int width;
-	private int height;
-	private Point origin;
-	//private Point center;
+	private calcShapes calc;
+	private Color color;
+	public static int counter;
+	public int id;
 	
 	
-	
-	
-	public Square(Point origin, int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.origin = origin;
+	public Square(Point p1, Point p2) {
+		if(p1.x == p2.x && p1.y == p2.y) return;
+		this.calc = setCalcShape(p1, p2);
+		this.color = Color.BLUE;
+		this.id = Square.counter++;
 		saveDraw();
 		
 	}
-
+	
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public void setColor(Color c) {
+		this.color = c;
+	}
+	
 	public void saveDraw() {
 		MainWindow.get().memory.add(this);
 	}
@@ -37,10 +49,24 @@ public class Square{
 		return res;
 	}
 	
-	public void draw(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.drawRect(origin.x, origin.y, width, height);
+	@Override
+	public calcShapes getCalcShape() {
+		return this.calc;
 	}
+	
+	@Override
+	public calcShapes setCalcShape(Point p1, Point p2) {
+		return (calc = new calcSquare(p1,p2));
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		g.setColor(this.color);
+		g.drawRect(calc.getOrigin().x, calc.getOrigin().y, calc.getWidth(), calc.getHeight());
+		
+	}
+
+
 	
 	
 	

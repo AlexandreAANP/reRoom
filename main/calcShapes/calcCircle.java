@@ -26,4 +26,16 @@ public class calcCircle implements calcShapes {
 		return 0;
 	}
 
+	@Override
+	public boolean inArea(Point p1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Point getLastPoint() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

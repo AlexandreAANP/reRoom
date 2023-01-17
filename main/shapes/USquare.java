@@ -22,7 +22,7 @@ public class USquare extends UShapes{
 	
 	
 	@Override
-	public calcShapes getCalcShape(Point p1, Point p2) {
+	public calcShapes setCalcShape(Point p1, Point p2) {
 		return (calc = new calcSquare(p1,p2));
 	}
 	

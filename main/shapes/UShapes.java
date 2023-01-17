@@ -14,13 +14,12 @@ public abstract class UShapes {
 	
 	public calcShapes calc = null;
 	
-	public abstract calcShapes getCalcShape(Point p1, Point p2);
+	public abstract calcShapes setCalcShape(Point p1, Point p2);
 	
 	public abstract void draw(Graphics g, calcShapes calc);
 	
 	public void repaint(Point p1, Point p2) {
 		window.paintComponents(g);
-		calcShapes calc = getCalcShape(p1, p2);
-		draw(g, calc);
+		draw(g, setCalcShape(p1,p2));
 	}
 }

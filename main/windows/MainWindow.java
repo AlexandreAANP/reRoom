@@ -3,13 +3,14 @@ package main.windows;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-
-import main.mouses.Mouse01;
+import main.mouses.MCreate;
+import main.mouses.MMouse;
+import main.shapes.Shapes;
 import main.shapes.Square;
 
 public class MainWindow extends JFrame implements Runnable{
@@ -19,8 +20,8 @@ public class MainWindow extends JFrame implements Runnable{
 	private int width;
 	private int height;
 	private String title;
-	private Mouse01 mouse;
-	public LinkedList<Square> memory;
+	private MCreate mouse;
+	public LinkedList<Shapes> memory;
 	
 	public Graphics g;
 	
@@ -28,8 +29,8 @@ public class MainWindow extends JFrame implements Runnable{
 	private MainWindow() {
 		this.width = 1920;
 		this.height = 1080;
-		this.title = "reRoom_Beta";
-		this.mouse = Mouse01.get();
+		this.title = "reRoom_ALPHA";
+		this.mouse = MCreate.get();
 		this.memory = new LinkedList<>();
 	}
 	
@@ -38,6 +39,14 @@ public class MainWindow extends JFrame implements Runnable{
 		if(instance == null)
 			instance = new MainWindow();
 		return instance;
+	}
+	
+	public void changeMouse(MMouse mouse) {
+		this.removeMouseListener(this.getMouseListeners()[0]);
+		this.removeMouseMotionListener(this.getMouseMotionListeners()[0]);
+		this.addMouseListener(mouse);
+		this.addMouseMotionListener(mouse);
+		this.setCursor(mouse.getCursor());
 	}
 	
 	public void init() {
@@ -69,8 +78,8 @@ public class MainWindow extends JFrame implements Runnable{
 		super.paintComponents(g);
 		if(this.memory.size()==0)
 			return;
-		for(Square s: this.memory) {
-			s.draw(g);
+		for(Shapes s: this.memory) {
+			s.repaint();
 		}
 
 	}
