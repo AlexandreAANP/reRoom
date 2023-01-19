@@ -21,7 +21,6 @@ public class MemoryList{
 	
 	public static void main(String args[]) {
 		MemoryList m = new MemoryList();
-		m.counter = 1048;
 		m.maxThreads = 20;
 		m.calcThreads();
 	}
