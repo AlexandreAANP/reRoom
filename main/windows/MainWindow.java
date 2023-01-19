@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
+import main.memory.MemoryList;
 import main.mouses.MCreate;
 import main.mouses.MMouse;
 import main.shapes.Shapes;
@@ -21,7 +22,7 @@ public class MainWindow extends JFrame implements Runnable{
 	private int height;
 	private String title;
 	private MCreate mouse;
-	public LinkedList<Shapes> memory;
+	public MemoryList memory;
 	
 	public Graphics g;
 	
@@ -31,7 +32,7 @@ public class MainWindow extends JFrame implements Runnable{
 		this.height = 1080;
 		this.title = "reRoom_ALPHA";
 		this.mouse = MCreate.get();
-		this.memory = new LinkedList<>();
+		this.memory = new MemoryList();
 	}
 	
 
@@ -76,11 +77,9 @@ public class MainWindow extends JFrame implements Runnable{
 	@Override
 	public void paintComponents(Graphics g) {
 		super.paintComponents(g);
-		if(this.memory.size()==0)
+		if(this.memory.counter==0)
 			return;
-		for(Shapes s: this.memory) {
-			s.repaint();
-		}
+		this.memory.repaintAll();
 
 	}
 	

@@ -51,20 +51,27 @@ public class MCreate extends MMouse{
 		return this.isMousePressed;
 	};
 
+	
+	//TODO MOVE THIS METHOD TO A CLASS THAT WILL CONTROL SHAPES OBJETOS
+	public Shapes getTouched(Point p) {
+		//Iterator<Shapes> i = MainWindow.get().memory.list.descendingIterator();
+		for(int i = MainWindow.get().memory.list.size()-1; i >=0 ; i--) {
+			Shapes shape = MainWindow.get().memory.list.get(i);
+			if(shape.getCalcShape().inArea(p))
+				return shape;
+		}
+		return null;
+	}
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(e.getButton() == e.BUTTON1) {
-			Iterator<Shapes> i = MainWindow.get().memory.descendingIterator();
-			while(i.hasNext()) {
-				Shapes shape = i.next();
-				if(shape.getCalcShape().inArea(e.getPoint())){
-					shape.setColor(Color.RED);
-					this.disableDraggedFunction = true;
-					MainWindow.get().changeMouse(MMove.get());
-					MainWindow.get().paintComponents(MainWindow.get().getGraphics());
-					return;
-				}
-			}
+		Shapes shape = null;
+		if((shape = getTouched(e.getPoint()))!=null) {
+			this.disableDraggedFunction = true;
+			shape.setColor(Color.RED);
+			MainWindow.get().changeMouse(MMove.get());
+			MainWindow.get().paintComponents(MainWindow.get().getGraphics());
 		}
 		this.disableDraggedFunction = false;
 		//MainWindow.get().changeMouse(MCreate.get());
@@ -107,6 +114,7 @@ public class MCreate extends MMouse{
 	@Override
 	public void mouseDragged(MouseEvent e) {
 			if(!this.disableDraggedFunction && this.lastButtonPressed != e.BUTTON1) return;
+			
 			if(this.actualPoint!=null && e.getPoint().x!=this.actualPoint.x && e.getPoint().y != this.actualPoint.y) {
 				USquare.get().repaint(this.firstPoint, e.getPoint());
 				this.actualPoint = e.getPoint();
